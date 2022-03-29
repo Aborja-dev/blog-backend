@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --verbose",
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
     "server": "node index.js",
-    "dev": "nodemon index.js "
+    "dev": "cross-env NODE_ENV=development nodemon index.js ",
+    "start": "cross-env NODE_ENV=production node index.js"
   },
   "keywords": [],
   "author": "",
@@ -18,9 +19,11 @@
     "mongoose": "6.2.7"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "eslint": "^8.12.0",
     "jest": "27.5.1",
-    "nodemon": "2.0.15"
+    "nodemon": "2.0.15",
+    "supertest": "^6.2.2"
   },
   "eslintConfig": {
     "env": {

@@ -1,10 +1,14 @@
 const mongoose = require('mongoose')
-
-const conectionString = process.env.MONGO_DB_URL
+let conectionString
+if (process.env.NODE_ENV === 'test') {
+	conectionString = process.env.MONGO_DB_URL
+} else {
+	conectionString = process.env.MONGO_DB_URL_TEST
+}
 //conexion a mongo
 mongoose.connect(conectionString)
 	.then(()=>{
-		console.info('conexion a base de datos exitosa')
+		console.info(`conexion a base de datos exitosa en ${process.env.NODE_ENV}`)
 	})
 	.catch((e)=>{
 		console.error('ha ocurrido un error', e)
