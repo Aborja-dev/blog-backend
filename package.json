@@ -4,10 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
+    "test": "cross-env NODE_ENV=test jest api.test.js --verbose --runInBand",
+    "test:silent": "npm run test:watch -- --silent",
     "server": "node index.js",
     "dev": "cross-env NODE_ENV=development nodemon index.js ",
-    "start": "cross-env NODE_ENV=production node index.js"
+    "start": "cross-env NODE_ENV=production node index.js",
+    "test:watch":"npm run test -- --watch"
   },
   "keywords": [],
   "author": "",
@@ -16,7 +18,7 @@
     "cors": "2.8.5",
     "dotenv": "16.0.0",
     "express": "4.17.3",
-    "mongoose": "6.2.7"
+    "mongoose": "5.11.15"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
