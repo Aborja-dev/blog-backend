@@ -6,4 +6,8 @@ const haveAllProperties = (_object, propertyList) => {
 	return haveProperties
 }
 
-module.exports = { haveAllProperties }
+const getId  = ()=>{
+
+}
+
+module.exports = { haveAllProperties, getId }

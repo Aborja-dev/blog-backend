@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === 'test') {
 //conexion a mongo
 mongoose.connect(conectionString)
 	.then(()=>{
-		//console.info(`conexion a base de datos exitosa en ${process.env.NODE_ENV}`)
+		console.info(`conexion a base de datos exitosa en ${process.env.NODE_ENV}`)
 	})
 	.catch((e)=>{
 		console.error('ha ocurrido un error', e)

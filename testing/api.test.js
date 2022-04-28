@@ -2,9 +2,8 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const { app, server } = require('../index')
 const api = supertest(app)
-const startDB = require('./test_DB/test_DB')
+const { startDB } = require('./test_DB/test_DB')
 const { mockData } = require('./test_DB/mockData')
-const { ApiError } = require('../scripts/ErrorApi')
 const len = mockData.length
 
 
@@ -42,7 +41,8 @@ describe('Pruebas de api', () => {
 			title: 'mis 10 extensiones favoritas de vsCode',
 			author: 'AbrahamBorja',
 			url: 'www.miblog.com',
-			likes: 5
+			likes: 5,
+			user: '6268abdec9797745ac1db119',
 		}
 		await api
 			.post('/api/blogs')
