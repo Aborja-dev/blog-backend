@@ -3,8 +3,10 @@ const usersRouter = require('express').Router()
 const User = require('../models/user')
 const { uniquevalidator} = require('../utils/user_helper') 
 usersRouter.get('/', async (request, response)=>{
-	const result = await User.find({})
-	response.json(result)
+	const users = await User
+	.find({}).populate('notes', { title: 1, url: 1 })
+	response.json(users)
+	
 })
 
 usersRouter.post('/', async (request, response) => {

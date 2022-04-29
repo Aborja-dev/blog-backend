@@ -6,9 +6,11 @@ const { haveAllProperties } = require('../utils/api_helpers')
 
 const blogsRouter = require('express').Router()
 
-blogsRouter.get('/', (request, response) => {
+blogsRouter.get('/', async (request, response) => {
+
 	Blog
 		.find({})
+		.populate('user', { username: 1, name: 1 })
 		.then(res => {
 			response.status(200).json(res)
 		})

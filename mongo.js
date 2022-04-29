@@ -3,7 +3,7 @@ let conectionString
 if (process.env.NODE_ENV === 'test') {
 	conectionString = process.env.MONGO_DB_URL_TEST
 } else {
-	conectionString = process.env.MONGO_DB_URL
+	conectionString = process.env.MONGO_DB_URL_TEST
 }
 //conexion a mongo
 mongoose.connect(conectionString)
