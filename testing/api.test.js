@@ -5,6 +5,7 @@ const api = supertest(app)
 const { startDB } = require('./test_DB/test_DB')
 const { mockData } = require('./test_DB/mockData')
 const len = mockData.length
+const { usersInDb } = require('../utils/user_helper')
 
 
 beforeEach(startDB)
@@ -37,12 +38,15 @@ describe('Pruebas de api', () => {
 
 	})
 	test('creacion de una nueva entrada', async () => {
+		const users = await usersInDb()		
+		const {_id: id } = users[0]
+
 		const newBlog = {
 			title: 'mis 10 extensiones favoritas de vsCode',
 			author: 'AbrahamBorja',
 			url: 'www.miblog.com',
 			likes: 5,
-			user: '6268abdec9797745ac1db119',
+			user: id,
 		}
 		await api
 			.post('/api/blogs')
@@ -57,12 +61,37 @@ describe('Pruebas de api', () => {
 		expect(lastentry.likes).toEqual(newBlog.likes)
 
 	})
+	test('busquedaDelUsuario', async () => {
+		/* const users = await usersInDb()		
+		const {_id: id } = users[0]
 
-	test('creacion de una nueva entrada sin likes', async () => {
+
 		const newBlog = {
 			title: 'mis 10 extensiones favoritas de vsCode',
 			author: 'AbrahamBorja',
 			url: 'www.miblog.com',
+			likes: 5,
+			user: id,
+		}
+		const result = await api.post('/api/blogs').send(newBlog)
+		expect(result.body).toHaveProperty('username')
+
+		/* const result = await api.get('/api/blogs')
+
+		expect(result.body).toHaveLength(len + 1)
+		const lastentry = result.body.pop()
+		expect(lastentry.likes).toEqual(newBlog.likes) */ 
+
+	})
+
+	test('creacion de una nueva entrada sin likes', async () => {
+		const users = await usersInDb()		
+		const {_id: id } = users[0]
+		const newBlog = {
+			title: 'mis 10 extensiones favoritas de vsCode',
+			author: 'AbrahamBorja',
+			url: 'www.miblog.com',
+			user: id,
 		}
 		await api
 			.post('/api/blogs')

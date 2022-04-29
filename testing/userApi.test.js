@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const { app, server } = require('../index')
+const { usersInDb } = require('../utils/user_helper')
+const { mockUsers } = require('./test_DB/mockusers')
 const { startDBUser } = require('./test_DB/test_DB')
 const api = supertest(app)
 
@@ -12,7 +14,11 @@ describe('Pruebas de api users', () => {
 			.expect(200)
 			.expect('Content-Type', /application\/json/)
 		const result = await api.get('/api/users')
-		expect(result.body).toHaveLength(1)
+		expect(result.body).toHaveLength(mockUsers.length)
+	})
+	test('prueba de userinDb', async () => {
+		const result = await usersInDb()
+		expect(result).toHaveLength(mockUsers.length)
 	})
 	test('prueba de endpoint create new user', async () => {
 
@@ -28,7 +34,7 @@ describe('Pruebas de api users', () => {
 			.expect(200)
 			.expect('Content-Type', /application\/json/)
 		const result = await api.get('/api/users')
-		expect(result.body).toHaveLength(2)
+		expect(result.body).toHaveLength(mockUsers.length + 1)
 	})
 	test('nombre de usuario debe ser unico', async () => {
 
@@ -42,9 +48,7 @@ describe('Pruebas de api users', () => {
 			.post('/api/users')
 			.send(newuser)
 			.expect(400)
-			.expect('Content-Type', /application\/json/)
-		const result = await api.get('/api/users')
-		expect(result.body).toHaveLength(2)
+			
 	})
 })
 

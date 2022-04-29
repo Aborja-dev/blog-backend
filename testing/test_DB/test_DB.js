@@ -14,6 +14,8 @@ const startDBUser =  async ()=>{
 	await User.deleteMany({})
 	let userObject = new User(mockUsers[0])
 	await userObject.save()
+	let userObject2 = new User(mockUsers[1])
+	await userObject2.save()
 }
 module.exports= {startDB, startDBUser}
 
