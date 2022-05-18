@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+/* const mongoose = require('mongoose')
 const supertest = require('supertest')
 const { app, server } = require('../index')
 const { mockUsers } = require('./test_DB/mockusers')
@@ -19,7 +19,7 @@ describe('Pruebas de api users', () => {
 			.expect(200)
 			.expect('Content-Type', /application\/json/)
 
-		const result = await api.post('/api/users').send(login)
+		const result = await api.post('/api/login').send(login)
 		expect(result.body).toHaveProperty('token')
 	})
 	test('login no autorizado', async () => {
@@ -39,4 +39,4 @@ describe('Pruebas de api users', () => {
 afterAll(async () => {
 	await mongoose.connection.close()
 	server.close()
-}) 
+})  */

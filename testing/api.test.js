@@ -19,12 +19,6 @@ describe('Pruebas de api', () => {
 		expect(result.body).toHaveLength(len)
 
 	})
-	test('prueba de error', async () => {
-		await api
-			.get('/api/error')
-			.expect(400)
-			.expect('Content-Type', /application\/json/)
-	})
 
 	test('los blogs tienen atributo id', async () => {
 		await api
@@ -62,7 +56,7 @@ describe('Pruebas de api', () => {
 
 	})
 	test('busquedaDelUsuario', async () => {
-		/* const users = await usersInDb()		
+const users = await usersInDb()		
 		const {_id: id } = users[0]
 
 
@@ -74,14 +68,7 @@ describe('Pruebas de api', () => {
 			user: id,
 		}
 		const result = await api.post('/api/blogs').send(newBlog)
-		expect(result.body).toHaveProperty('username')
-
-		/* const result = await api.get('/api/blogs')
-
-		expect(result.body).toHaveLength(len + 1)
-		const lastentry = result.body.pop()
-		expect(lastentry.likes).toEqual(newBlog.likes) */ 
-
+		expect(result.body).toHaveProperty('user')
 	})
 
 	test('creacion de una nueva entrada sin likes', async () => {
@@ -105,6 +92,10 @@ describe('Pruebas de api', () => {
 		expect(result.body.likes).toEqual(0)
 
 	})
+	test('devuelve una lista de blogs con usuario ', async () => {
+		const response = await api.get('/api/blogs')
+
+	})
 
 	test('envia una entrada vacia', async () => {
 		const newBlog = {
@@ -118,7 +109,7 @@ describe('Pruebas de api', () => {
 		const result = await api
 			.post('/api/blogs')
 			.send(newBlog)
-		expect(result.body.error).toBeInstanceOf(Object)
+		expect(result.body).toBeInstanceOf(Object)
 	})
 	/* 	test('la entrada ya existe', async () => {
 			const newBlog = {
@@ -148,71 +139,6 @@ describe('Pruebas de api', () => {
 			.expect(404)
 	})
 })
-
-
-
-/* describe('Pruebas del api', () => {
-	test('La lista de blogs esta en formato JSON y tiene 2 entradas', async () => {
-		await api
-			.get('/api/blogs')
-			.expect(200)
-			.expect('Content-Type', /application\/json/)
-		const response = await api.get('/api/blogs')
-		expect(response.body).toHaveLength(2)
-	})
-
-	test('La lista de blogs tiene un atributo llamado ID', async () => {
-		const response = await api.get('/api/blogs')
-		response.body.forEach(blog => {
-			expect(blog).toHaveProperty('id')
-		})
-	})
-
-	test('La lista de blogs tiene un atributo llamado ID', async () => {
-		const response = await api.get('/api/blogs')
-		response.body.forEach(blog => {
-			expect(blog).toHaveProperty('id')
-		})
-	})
-
-	test('Post a blog', async () => {
-		const newEntry = {
-			title: 'haz tu propio conjunto de tests',
-			author: 'Abraham Borja',
-			url: 'www.miblog.com',
-			likes: 0,
-		}
-		await api
-			.post('/api/blogs')
-			.send(newEntry)
-			.expect(200)
-		const response = await api.get('/api/blogs')
-		expect(response.body).toHaveLength(3)
-
-	})
-
-	test('blog not have a likes', async () => {
-		const newEntry = {
-			title: 'haz tu propio conjunto de tests',
-			author: 'Abraham Borja',
-			url: 'www.miblog.com',
-		}
-		await api
-			.post('/api/blogs')
-			.send(newEntry)
-			.expect(200)
-		const response = await api.post('/api/blogs')
-		expect(response.body).toHaveProperty('likes')
-		expect(response.body.likes).toEqual(0)
-
-	})
-
-	test('error 404', async () => {
-		await api
-			.get('/api/posts')
-			.expect(404)
-	})
-}) */
 
 afterAll(async () => {
 	await mongoose.connection.close()

@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const User = require('../models/user')
-const { uniquevalidator} = require('../utils/user_helper') 
+const { uniquevalidator, validatorUser} = require('../utils/user_helper') 
 usersRouter.get('/', async (request, response)=>{
 	const users = await User
 	.find({}).populate('notes', { title: 1, url: 1 })
@@ -9,10 +9,11 @@ usersRouter.get('/', async (request, response)=>{
 	
 })
 
-usersRouter.post('/', async (request, response) => {
+usersRouter.post('/', async (request, response, next) => {
 	const body = request.body
-	if(!uniquevalidator(body.username)){
-		return response.status(400).end()
+	const validator = await validatorUser(body)
+	if(validator){
+		return next('invalid user')
 	}
 	
 	const saltRounds = 10

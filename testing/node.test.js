@@ -1,4 +1,4 @@
-const { dummy, totalLikes, favoriteBlog } = require('../utils/for_testing')
+/* const { dummy, totalLikes, favoriteBlog } = require('../utils/for_testing')
 
 test('ejercicio de openfullstack', () => {
 	const blogs = []
@@ -33,3 +33,4 @@ describe('total likes', () => {
 	})
 })
 
+ */

@@ -12,11 +12,9 @@ const loginRouter = require('./controllers/login')
 
 app.use(cors())
 app.use(express.json())
-
 app.get('/api/error', (request, response, next) => {
 		console.log('error');
-		next(new Error('es un error'))
-
+		next(new Error('error de prueba'))
 })
 
 app.use('/api/login',loginRouter)
