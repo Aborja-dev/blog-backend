@@ -1,0 +1,36 @@
+# Navegador
+node_modules/
+npm-debug.log
+build/
+# Archivos de configuración
+.env
+config/
+
+# Archivos temporales
+*.log
+tmp/
+
+# Archivos generados por el compilador
+*.js.map
+
+# Archivos de desarrollo
+*.map
+*.d.ts
+*.spec.ts
+
+# Archivos de TypeORM
+typeorm-migrations/
+migrations/
+
+# Archivos de dependencias
+yarn.lock
+package-lock.json
+
+# Archivos de build
+dist/
+
+# Archivos de ejecución
+build/
+
+# Archivos de caché
+.cache
