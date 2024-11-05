@@ -44,3 +44,13 @@ export const insertBlog = async (blog: InsertBlog): Promise<Blog> => {
     await newBlog.save()
     return transformBlog(newBlog)
 }
+
+export const deleteBlog = async (id: String): Promise<Blog> => {
+    const blog = await Blog.findByIdAndDelete(id)
+    return transformBlog(blog)
+}
+
+export const updateBlog = async (id: String, blog: Partial<InsertBlog>): Promise<Blog> => {
+    const updatedBlog = await Blog.findByIdAndUpdate(id, blog, { new: true })
+    return transformBlog(updatedBlog)
+}

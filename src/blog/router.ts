@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { Blog } from "./schema";
-import { insertBlog, selectAllBlog } from "./repository";
+import { deleteBlog, insertBlog, selectAllBlog, updateBlog } from "./repository";
 export const blogRouter = Router();
 
 
@@ -16,5 +16,22 @@ blogRouter.post('/', (request, response) => {
     insertBlog(blog)
         .then(result => {
             response.status(201).json(result)
+        })
+})
+
+blogRouter.delete('/:id', (request, response) => {
+    const id = request.params.id
+    deleteBlog(id)
+        .then(() => {
+            response.status(204).end()
+        })
+})
+
+blogRouter.put('/:id', (request, response) => {
+    const id = request.params.id
+    const blog = request.body
+    updateBlog(id, blog)
+        .then(result => {
+            response.json(result)
         })
 })
