@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { Blog } from "./schema";
 import { deleteBlog, insertBlog, selectAllBlog, updateBlog } from "./repository";
+import { AuthMiddleware } from "../middleware/auth";
 export const blogRouter = Router();
 
 
@@ -11,9 +12,14 @@ blogRouter.get('/', (request, response) => {
         })
 })
 
-blogRouter.post('/', (request, response) => {
+blogRouter.post('/',AuthMiddleware, (request, response) => {
+    console.log(request.app.locals.auth);
+    const user = request.app.locals.auth
+    if (!user) {
+        response.status(401).json({ error: 'invalid token' }).end()
+    }
     const blog = request.body
-    insertBlog(blog)
+    insertBlog(blog, user.id)
         .then(result => {
             response.status(201).json(result)
         })

@@ -1,4 +1,4 @@
-import { Document, ObjectId } from "mongoose"
+import { Document } from "mongoose"
 import { Blog } from "./schema"
 import { User } from "../user/schema"
 
@@ -42,10 +42,10 @@ export const selectAllBlog = async (): Promise<Blog[]> => {
     return blogs.map(transformBlog)
 }
 
-export const insertBlog = async (blog: InsertBlog): Promise<Blog> => {
-    const user = await User.findById('6729b3af9ebb6007c3cf96e5')
+export const insertBlog = async (blog: InsertBlog, userID: String): Promise<Blog> => {
+    const user = await User.findById(userID)
     const newBlog = new Blog({
-        user: '6729b3af9ebb6007c3cf96e5',
+        user: userID,
         ...blog,
     })
     user?.blogs.push(newBlog)
