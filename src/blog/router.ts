@@ -4,14 +4,14 @@ import { insertBlog, selectAllBlog } from "./repository";
 export const blogRouter = Router();
 
 
-blogRouter.get('/api/blogs', (request, response) => {
+blogRouter.get('/', (request, response) => {
     selectAllBlog()
         .then(blogs => {
             response.json(blogs)
         })
 })
 
-blogRouter.post('/api/blogs', (request, response) => {
+blogRouter.post('/', (request, response) => {
     const blog = request.body
     insertBlog(blog)
         .then(result => {
