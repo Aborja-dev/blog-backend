@@ -1,5 +1,6 @@
-import { Document } from "mongoose"
+import { Document, ObjectId } from "mongoose"
 import { Blog } from "./schema"
+import { User } from "../user/schema"
 
 interface InsertBlog {
     title: String,
@@ -14,6 +15,7 @@ interface Blog {
     url: String,
     likes: Number
     id: String
+    user?: any
 }
 
 interface BlogModel extends Document {
@@ -31,7 +33,8 @@ const transformBlog = (blog: any): Blog => {
         title: blog.title,
         author: blog.author,
         url: blog.url,
-        likes: blog.likes
+        likes: blog.likes,
+        user: blog.user
     }
 }
 export const selectAllBlog = async (): Promise<Blog[]> => {
@@ -40,7 +43,13 @@ export const selectAllBlog = async (): Promise<Blog[]> => {
 }
 
 export const insertBlog = async (blog: InsertBlog): Promise<Blog> => {
-    const newBlog = new Blog(blog)
+    const user = await User.findById('6729b3af9ebb6007c3cf96e5')
+    const newBlog = new Blog({
+        user: '6729b3af9ebb6007c3cf96e5',
+        ...blog,
+    })
+    user?.blogs.push(newBlog)
+    await user?.save()
     await newBlog.save()
     return transformBlog(newBlog)
 }
