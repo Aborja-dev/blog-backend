@@ -11,5 +11,8 @@ export const AuthMiddleware = (request: Request, response: any, next: any) => {
             return response.status(401).json({ error: 'invalid token' }).end()
         }
     }
+    else {
+        return response.status(401).json({ error: 'invalid token' }).end()
+    }
     next()
 }

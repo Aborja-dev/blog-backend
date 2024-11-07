@@ -9,18 +9,26 @@ interface User {
 }
 
 interface UserWithBlogs extends User {
-    blogs: any
+    blogs: {
+        _id: string
+        title: string
+        author: string
+        url: string
+        likes: number
+    }
 }
 
+
+
 export const findUser = async (key: keyof IUser, value: any) => {
-    return await User.findOne({ [key]: value })
+    return await User.findOne({ [key]: value }).populate('blogs')
 }
 
 export const selectUser = (id: string) => {
-    return User.findById(id).populate('blogs')
+    const user = User.findById(id).populate('blogs')
 }
 
-export const transform = (user: HydratedDocument<IUser> ): User => {
+export const transform = <T>(user: HydratedDocument<IUser> ): User => {
     return {
         id: user._id.toString(),
         username: user.username,

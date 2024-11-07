@@ -27,5 +27,10 @@ UserRouter.post('/login', async (request, response) => {
         id: userInDB?.id
     }
     const token = createToken(tokenPayload)
-    response.json({ token })
+    response.json({ 
+        token,
+        id: userInDB?.id,
+        name: userInDB?.name,
+        blogs: userInDB?.blogs
+     })
 })

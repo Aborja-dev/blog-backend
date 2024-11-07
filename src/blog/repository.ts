@@ -41,7 +41,14 @@ export const selectAllBlog = async (): Promise<Blog[]> => {
     const blogs: BlogModel[] = await Blog.find({})
     return blogs.map(transformBlog)
 }
-
+export const selectBlogForUser = async (id: String): Promise<Blog[]> => {
+    try {
+        const blogs = await Blog.find({ user: id })
+        return blogs.map(transformBlog)
+    } catch (error) {
+        console.log(error)
+    }
+}
 export const insertBlog = async (blog: InsertBlog, userID: String): Promise<Blog> => {
     const user = await User.findById(userID)
     const newBlog = new Blog({

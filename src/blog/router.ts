@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { Blog } from "./schema";
-import { deleteBlog, insertBlog, selectAllBlog, updateBlog } from "./repository";
+import { deleteBlog, insertBlog, selectAllBlog, selectBlog, selectBlogForUser, updateBlog } from "./repository";
 import { AuthMiddleware } from "../middleware/auth";
 export const blogRouter = Router();
 
@@ -11,7 +11,13 @@ blogRouter.get('/', (request, response) => {
             response.json(blogs)
         })
 })
-
+blogRouter.get('/:id', (request, response) => {
+    const id = request.params.id
+    selectBlogForUser(id)
+        .then(blog => {
+            response.json(blog)
+        })
+})
 blogRouter.post('/',AuthMiddleware, (request, response) => {
     console.log(request.app.locals.auth);
     const user = request.app.locals.auth
