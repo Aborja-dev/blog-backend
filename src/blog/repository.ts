@@ -50,6 +50,8 @@ export const selectBlogForUser = async (id: String): Promise<Blog[]> => {
     }
 }
 export const insertBlog = async (blog: InsertBlog, userID: String): Promise<Blog> => {
+    console.log(userID);
+
     const user = await User.findById(userID)
     const newBlog = new Blog({
         user: userID,
@@ -67,6 +69,13 @@ export const deleteBlog = async (id: String): Promise<Blog> => {
 }
 
 export const updateBlog = async (id: String, blog: Partial<InsertBlog>): Promise<Blog> => {
-    const updatedBlog = await Blog.findByIdAndUpdate(id, blog, { new: true })
-    return transformBlog(updatedBlog)
+    console.log(id, blog);
+    try {
+        const updatedBlog = await Blog.findByIdAndUpdate(id, blog, { new: true })
+        return transformBlog(updatedBlog)
+    } catch (e) {
+        console.log(e.message);
+
+    }
+
 }

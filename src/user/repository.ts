@@ -24,8 +24,8 @@ export const findUser = async (key: keyof IUser, value: any) => {
     return await User.findOne({ [key]: value }).populate('blogs')
 }
 
-export const selectUser = (id: string) => {
-    const user = User.findById(id).populate('blogs')
+export const selectUser = async (id: string) => {
+    const user = await User.findById(id).populate('blogs')
 }
 
 export const transform = <T>(user: HydratedDocument<IUser> ): User => {

@@ -13,37 +13,56 @@ blogRouter.get('/', (request, response) => {
 })
 blogRouter.get('/:id', (request, response) => {
     const id = request.params.id
-    selectBlogForUser(id)
-        .then(blog => {
-            response.json(blog)
-        })
+    try {
+
+        selectBlogForUser(id)
+            .then(blog => {
+                response.json(blog)
+            })
+    } catch (error) {
+        return response.status(401).json({ error: 'invalid token' }).end()
+    }
 })
-blogRouter.post('/',AuthMiddleware, (request, response) => {
-    console.log(request.app.locals.auth);
+blogRouter.post('/', AuthMiddleware, (request, response) => {
     const user = request.app.locals.auth
     if (!user) {
         response.status(401).json({ error: 'invalid token' }).end()
     }
-    const blog = request.body
-    insertBlog(blog, user.id)
-        .then(result => {
-            response.status(201).json(result)
-        })
+    try {
+        const blog = request.body
+        insertBlog(blog, user.id)
+            .then(result => {
+                return response.status(201).json(result)
+            })
+    } catch (error) {
+        return response.status(401).json({ error: 'invalid token' }).end()
+    }
+
 })
 
 blogRouter.delete('/:id', (request, response) => {
     const id = request.params.id
+    try {
+     
     deleteBlog(id)
-        .then(() => {
-            response.status(204).end()
-        })
+    .then(() => {
+        response.status(204).end()
+    })   
+    } catch (error) {
+      return response.status(401).json({ error: 'invalid token' }).end()  
+    }
 })
 
 blogRouter.put('/:id', (request, response) => {
-    const id = request.params.id
-    const blog = request.body
-    updateBlog(id, blog)
-        .then(result => {
-            response.json(result)
-        })
+    try {
+        const id = request.params.id
+        const blog = request.body
+        updateBlog(id, blog)
+            .then(result => {
+                response.json(result)
+            })    
+    } catch (error) {
+        return response.status(401).json({ error: 'invalid token' }).end()
+    }
+    
 })
