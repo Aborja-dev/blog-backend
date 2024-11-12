@@ -26,6 +26,7 @@ export const findUser = async (key: keyof IUser, value: any) => {
 
 export const selectUser = async (id: string) => {
     const user = await User.findById(id).populate('blogs')
+    return user
 }
 
 export const transform = <T>(user: HydratedDocument<IUser> ): User => {
@@ -36,3 +37,10 @@ export const transform = <T>(user: HydratedDocument<IUser> ): User => {
         passwordHash: user.passwordHash
     }
 }
+
+export const UserRepository = {
+    selectUser,
+    findUser
+}
+
+export type IUserRepository = typeof UserRepository

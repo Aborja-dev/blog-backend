@@ -18,6 +18,8 @@ UserRouter.get('/:id', (request, response) => {
 
 UserRouter.post('/login', async (request, response) => {
     const { username, password } = request.body
+    console.log(username, password);
+    
     try {
         const userInDB = await findUser('username', username)
         if (!userInDB) {
@@ -35,7 +37,7 @@ UserRouter.post('/login', async (request, response) => {
             blogs: userInDB?.blogs
          })    
     } catch (error) {
-        return response.status(401).json({ error: 'invalid username or password' }).end()
+        return response.status(401).json({ error: error.message }).end()
     }
     
 })

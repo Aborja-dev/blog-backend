@@ -1,7 +1,9 @@
 import { Router } from "express";
 import { Blog } from "./schema";
-import { deleteBlog, insertBlog, selectAllBlog, selectBlog, selectBlogForUser, updateBlog } from "./repository";
+import { blogRepository, deleteBlog, insertBlog, selectAllBlog, selectBlog, selectBlogForUser, updateBlog } from "./repository";
 import { AuthMiddleware } from "../middleware/auth";
+import { Service } from "../service";
+import { UserRepository } from "../user/repository";
 export const blogRouter = Router();
 
 
@@ -24,13 +26,14 @@ blogRouter.get('/:id', (request, response) => {
     }
 })
 blogRouter.post('/', AuthMiddleware, (request, response) => {
-    const user = request.app.locals.auth
+    const { user } = request.app.locals.auth
+    const service = new Service(UserRepository, blogRepository)
     if (!user) {
         response.status(401).json({ error: 'invalid token' }).end()
     }
     try {
         const blog = request.body
-        insertBlog(blog, user.id)
+        service.createNewBlog(blog, user.id)
             .then(result => {
                 return response.status(201).json(result)
             })
@@ -43,13 +46,13 @@ blogRouter.post('/', AuthMiddleware, (request, response) => {
 blogRouter.delete('/:id', (request, response) => {
     const id = request.params.id
     try {
-     
-    deleteBlog(id)
-    .then(() => {
-        response.status(204).end()
-    })   
+
+        deleteBlog(id)
+            .then(() => {
+                response.status(204).end()
+            })
     } catch (error) {
-      return response.status(401).json({ error: 'invalid token' }).end()  
+        return response.status(401).json({ error: 'invalid token' }).end()
     }
 })
 
@@ -60,9 +63,9 @@ blogRouter.put('/:id', (request, response) => {
         updateBlog(id, blog)
             .then(result => {
                 response.json(result)
-            })    
+            })
     } catch (error) {
         return response.status(401).json({ error: 'invalid token' }).end()
     }
-    
+
 })

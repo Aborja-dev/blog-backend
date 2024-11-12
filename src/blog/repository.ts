@@ -2,7 +2,7 @@ import { Document } from "mongoose"
 import { Blog } from "./schema"
 import { User } from "../user/schema"
 
-interface InsertBlog {
+export interface InsertBlog {
     title: String,
     author: String,
     url: String,
@@ -51,14 +51,10 @@ export const selectBlogForUser = async (id: String): Promise<Blog[]> => {
 }
 export const insertBlog = async (blog: InsertBlog, userID: String): Promise<Blog> => {
     console.log(userID);
-
-    const user = await User.findById(userID)
     const newBlog = new Blog({
         user: userID,
         ...blog,
     })
-    user?.blogs.push(newBlog)
-    await user?.save()
     await newBlog.save()
     return transformBlog(newBlog)
 }
@@ -77,5 +73,14 @@ export const updateBlog = async (id: String, blog: Partial<InsertBlog>): Promise
         console.log(e.message);
 
     }
-
 }
+
+export const blogRepository = {
+    selectAllBlog,
+    selectBlogForUser,
+    insertBlog,
+    deleteBlog,
+    updateBlog
+}
+
+export type IBlogRepository = typeof blogRepository
