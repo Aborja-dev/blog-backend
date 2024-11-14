@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
+import { IBlog } from './types'
 
-const blogSchema = new mongoose.Schema({
+const blogSchema = new mongoose.Schema<IBlog>({
   title: String,
   author: String,
   url: String,
@@ -11,4 +12,4 @@ const blogSchema = new mongoose.Schema({
   }
 })
 
-export const Blog = mongoose.model('Blog', blogSchema)
+export const Blog = mongoose.model<IBlog>('Blog', blogSchema)

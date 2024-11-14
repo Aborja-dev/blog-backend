@@ -7,7 +7,7 @@ interface User {
     passwordHash: String
     id: string
 }
-
+export type ForInsertUser = Omit<IUser, 'id'>
 interface UserWithBlogs extends User {
     blogs: {
         _id: string
@@ -28,8 +28,26 @@ export const selectUser = async (id: string) => {
     const user = await User.findById(id).populate('blogs')
     return user
 }
+export const getUsers = async (): Promise<IUser[]> => {
+    const users = await User.find({})
+    return users.map(transform)
 
-export const transform = <T>(user: HydratedDocument<IUser> ): User => {
+}
+
+export const insertUser = async (user: ForInsertUser): Promise<IUser> => {
+    const newUser = new User(user)
+    await newUser.save()
+    return transform(newUser)
+}
+
+export const update = async (id: string, user: Partial<ForInsertUser>): Promise<void> => {
+    await User.findByIdAndUpdate(id, user, { new: true })
+}
+
+export const deleteOne = async (id: string): Promise<void> => {
+    await User.findByIdAndDelete(id)
+}
+export const transform = <T>(user: HydratedDocument<IUser> ): IUser => {
     return {
         id: user._id.toString(),
         username: user.username,
@@ -40,7 +58,11 @@ export const transform = <T>(user: HydratedDocument<IUser> ): User => {
 
 export const UserRepository = {
     selectUser,
-    findUser
+    findUser,
+    getUsers,
+    insertUser,
+    update,
+    deleteOne
 }
 
 export type IUserRepository = typeof UserRepository

@@ -8,3 +8,7 @@ export const createToken = (user: any) => {
 export const decodeToken = (token: string) => {
     return jwt.verify(token, process.env.JWT_SECRET || 'secret')
 }
+
+export const comparePassword = (password: string, passwordHash: String) => {
+    return password === passwordHash
+}

@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
 export interface IUser {
+    id: string
     username: String
     name: String
     passwordHash: String
-    blogs: any
+    blogs?: any
 }
 const userSchema = new mongoose.Schema<IUser>({
     username: String,
