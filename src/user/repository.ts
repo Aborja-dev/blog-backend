@@ -21,7 +21,9 @@ interface UserWithBlogs extends User {
 
 
 export const findUser = async (key: keyof IUser, value: any) => {
-    return await User.findOne({ [key]: value }).populate('blogs')
+    const user = await User.findById(value).populate('blogs')
+    if (!user) return null
+    return transform(user)
 }
 
 export const selectUser = async (id: string) => {

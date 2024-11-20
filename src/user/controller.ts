@@ -23,6 +23,15 @@ export class UserController {
             response.status(400).json({ error: error.message })
         }
     }
+    static getOne = async (request: Request, response: Response) => {
+        const { id } = request.params
+        try {
+            const item = await service.getOne(id)
+            response.json(item)
+        } catch (error: Error | any) {
+            response.status(400).json({ error: error.message })
+        }
+    }
     static create = async (request: Request, response: Response) => {
         const { name, username, passwordHash } = request.body
         try {

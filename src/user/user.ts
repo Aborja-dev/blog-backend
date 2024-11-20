@@ -20,6 +20,11 @@ export class UserService {
         const users = await this.User.getUsers()
         return users
     }
+    getOne = async (id: string): Promise<IUser | null> => {
+        const user = await this.User.findUser('id', id)
+        if (!user) return null
+        return user
+    }
     create = async (user: ForInsertUser): Promise<IUser> => {
         const createdUser = await this.User.insertUser(user)
         return createdUser

@@ -13,6 +13,15 @@ export class BlogController {
             response.status(400).json({ error: error.message })
         }
     }
+    static getOne = async (request: Request, response: Response) => {
+        const { id } = request.params
+        try {
+            const blog = await blogRepository.selectBlog(id)
+            response.json(blog)
+        } catch (error: Error | any) {
+            response.status(400).json({ error: error.message })
+        }
+    }
     static create = async (request: Request, response: Response) => {
         const { title, author, url, likes } = request.body
         const { id } = request.app.locals.auth.user

@@ -60,12 +60,26 @@ export const updateBlog = async (id: String, blog: Partial<ForInsertBlog>): Prom
     }
 }
 
+export const selectBlog = async (id: String): Promise<IBlog> => {
+    try {
+        const blog = await Blog.findById(id)
+        if (!blog) {
+            throw new Error('Blog not found')
+        }
+        return transformBlog(blog)
+    } catch (error) {
+        throw new Error((error as Error).message)
+    }
+}
+
+
 export const blogRepository = {
     selectAllBlog,
     selectBlogForUser,
     insertBlog,
     deleteBlog,
-    updateBlog
+    updateBlog,
+    selectBlog
 }
 
 export type IBlogRepository = typeof blogRepository
