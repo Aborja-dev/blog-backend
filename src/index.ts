@@ -12,7 +12,19 @@ app.use(express.static('views'))
 app.use('/api/blogs', blogRouter)
 app.use('/api/users', UserRouter)
 app.get('/', (req, res) => {
-  res.sendFile('index.html', { root: 'views' })
+  res.send(`
+    <p>Backen</p>
+    <ul>
+        <li>
+            <p>Blogs</p>
+            <a href="/api/blogs">/api/blogs</a>
+        </li>
+        <li>
+            <p>Users</p>
+            <a href="/api/users">/api/users</a>
+        </li>
+    </ul>
+    `)
 })
 const PORT = 3003
 const runApp = async() => {
